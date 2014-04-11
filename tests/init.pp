@@ -4,6 +4,6 @@
 class {'varnish':}
 
 #class {'varnish':
-#  varnish_listen_port  => '80',
+#  varnish_listens  => ['0.0.0.0:80'],
 #  varnish_storage_size => '1G',
 #}

@@ -27,7 +27,7 @@
    starts it on port 80:  
 
     class {'varnish':
-      varnish_listen_port => 80,
+      varnish_listens => ['0.0.0.0:80'],
       varnish_storage_size => '1G',
     }
 
@@ -44,7 +44,7 @@
    
     $memlock             -> MEMLOCK
     $varnish_vcl_conf    -> VARNISH_VCL_CONF
-    $varnish_listen_port -> VARNISH_LISTEN_PORT
+    $varnish_listens -> VARNISH_LISTENS
 
    Exceptions are:  
    `shmlog_dir`    - location for shmlog  
@@ -52,7 +52,7 @@
    `version`       - passes to puppet type 'package', attribute 'ensure', (default value: present)  
 
    At minimum you may want to change a value for default port:  
-   `varnish_listen_port => '80'`
+   `varnish_listens => ['0.0.0.0:80']`
 
 For more details on parameters, check class varnish.
 

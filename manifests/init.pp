@@ -9,7 +9,7 @@
 # the Varnish conf file, $class_parameter -> VARNISH_PARAMETER, i.e.
 # $memlock             -> MEMLOCK
 # $varnish_vcl_conf    -> VARNISH_VCL_CONF
-# $varnish_listen_port -> VARNISH_LISTEN_PORT
+# $varnish_listens -> VARNISH_LISTENS
 #
 # Exceptions are: 
 # shmlog_dir    - location for shmlog 
@@ -36,7 +36,7 @@
 # - storage size is set to 2 GB 
 # - vcl file is '/etc/varnish/my-vcl.vcl'
 # class {'varnish':
-#   varnish_listen_port  => '80',
+#   varnish_listens  => ['0.0.0.0:80'],
 #   varnish_storage_size => '2G',
 #   varnish_vcl_conf     => '/etc/varnish/my-vcl.vcl',
 # }
@@ -48,8 +48,7 @@ class varnish (
   $memlock                      = '82000',
   $storage_type                 = 'malloc',
   $varnish_vcl_conf             = '/etc/varnish/default.vcl',
-  $varnish_listen_address       = '',
-  $varnish_listen_port          = '6081',
+  $varnish_listens              = ['0.0.0.0:6081']
   $varnish_admin_listen_address = '127.0.0.1',
   $varnish_admin_listen_port    = '6082',
   $varnish_min_threads          = '5',

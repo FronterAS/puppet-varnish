@@ -32,8 +32,7 @@ VARNISH_VCL_CONF=<%= scope.lookupvar('varnish_vcl_conf') %>
 # # Default address and port to bind to
 # # Blank address means all IPv4 and IPv6 interfaces, otherwise specify
 # # a host name, an IPv4 dotted quad, or an IPv6 address in brackets.
-VARNISH_LISTEN_ADDRESS=<%= scope.lookupvar('varnish_listen_address') %>
-VARNISH_LISTEN_PORT=<%= scope.lookupvar('varnish_listen_port') %>
+VARNISH_LISTENs=<%= scope.lookupvar('varnish_listens').join(", ") %>
 #
 # # Telnet admin interface listen address and port
 VARNISH_ADMIN_LISTEN_ADDRESS=<%= scope.lookupvar('varnish_admin_listen_address') %>
@@ -71,7 +70,7 @@ VARNISH_TTL=<%= scope.lookupvar('varnish_ttl') %>
 #
 # # DAEMON_OPTS is used by the init script.  If you add or remove options, make
 # # sure you update this section, too.
-DAEMON_OPTS="-a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} \
+DAEMON_OPTS="-a ${VARNISH_LISTENS} \
              -f ${VARNISH_VCL_CONF} \
              -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT} \
              -t ${VARNISH_TTL} \
