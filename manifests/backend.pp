@@ -5,10 +5,12 @@ define varnish::backend ( $host,
                         ) {
 
   validate_re($title,'^[A-Za-z0-9_]*$', "Invalid characters in backend name $title. Only letters, numbers and underscore are allowed.")
-  
+
   if (!is_ip_address($host)) {
     fail("Backend host $host is not an IP Address!")
   }
+
+  include concat::setup
 
   concat::fragment { "$title-backend":
     target  => "${varnish::vcl::includedir}/backends.vcl",
