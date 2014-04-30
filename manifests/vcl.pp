@@ -15,7 +15,7 @@
 #
 # enable_waf - controls VCL WAF component, can be treu or false
 #              default value: false
-# 
+#
 #
 #
 # NOTE: VCL applies following restictions:
@@ -38,7 +38,7 @@ class varnish::vcl (
   $blockedbots	     = [],
   $enable_waf        = false,
   $wafexceptions     = [ "57" , "56" , "34" ],
-  $purgeips          = [], 
+  $purgeips          = [],
   $includedir        = "/etc/varnish/includes",
   $cookiekeeps       = [ '__ac', '_ZopeId', 'captchasessionid', 'statusmessages', '__cp', 'MoodleSession'],
   $defaultgrace      = undef,
@@ -50,10 +50,13 @@ class varnish::vcl (
 ) {
 
   include varnish
+  include concat::setup
 
   # define include file type
   define includefile {
     $selectors = $varnish::vcl::selectors
+
+    
     concat { "${varnish::vcl::includedir}/$title.vcl":
        owner          => 'root',
        group          => 'root',
@@ -78,7 +81,7 @@ class varnish::vcl (
   else {
     $template_vcl = 'varnish/varnish-vcl.erb'
     file { "$includedir":
-	ensure => directory,	
+	ensure => directory,
     }
     $includefiles = ["probes", "backends", "directors", "acls", "backendselection", "waf"]
     includefile { $includefiles: }
@@ -105,15 +108,15 @@ class varnish::vcl (
   }
 
   #Create resources
- 
+
   #Backends
   validate_hash($backends)
-  create_resources(varnish::backend,$backends) 
+  create_resources(varnish::backend,$backends)
 
   #Probes
   validate_hash($probes)
-  create_resources(varnish::probe,$probes) 
-  
+  create_resources(varnish::probe,$probes)
+
   #Directors
   validate_hash($directors)
   create_resources(varnish::director,$directors)
@@ -124,10 +127,10 @@ class varnish::vcl (
 
   #ACLs
   validate_hash($acls)
-  $default_acls = { 
+  $default_acls = {
     blockedips => { hosts => $blockedips },
     purge => { hosts => $purgeips },
-  } 
+  }
   $all_acls = merge($default_acls, $acls)
-  create_resources(varnish::acl,$all_acls) 
+  create_resources(varnish::acl,$all_acls)
 }

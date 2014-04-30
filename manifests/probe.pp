@@ -6,11 +6,13 @@ define varnish::probe ( $interval  = '5s',
                         $url       = undef,
                         $request   = undef
                       ) {
-  
+
   validate_re($title,'^[A-Za-z0-9_]*$', "Invalid characters in probe name $title. Only letters, numbers and underscore are allowed.")
 
   # parameters for probe
   $probe_params = [ 'interval', 'timeout', 'threshold', 'window', 'url', 'request' ]
+
+  include concat::setup
 
   concat::fragment { "$title-probe":
     target => "${varnish::vcl::includedir}/probes.vcl",
